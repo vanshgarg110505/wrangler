@@ -39,10 +39,3 @@
    - Extreme unit conversions
    - Mixed binary and decimal units
 4. Test error handling and validation
-
-## Documentation
-1. Add section to README.md about new parsers and directive
-2. Document supported units and formats
-3. Provide usage examples
-4. Explain features and capabilities
-5. Add to directives table 
