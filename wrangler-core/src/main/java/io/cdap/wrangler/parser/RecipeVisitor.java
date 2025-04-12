@@ -302,18 +302,40 @@ public final class RecipeVisitor extends DirectivesBaseVisitor<RecipeSymbol.Buil
   }
 
   /**
+   * This visitor method extracts byte size values with units. It creates a token
+   * type {@code ByteSize} to be added to {@code TokenGroup}.
+   */
+  @Override
+  public RecipeSymbol.Builder visitByteSizeArg(DirectivesParser.ByteSizeArgContext ctx) {
+    String token = ctx.BYTE_SIZE().getText();
+    builder.addToken(new ByteSize(token));
+    return builder;
+  }
+
+  /**
+   * This visitor method extracts time duration values with units. It creates a token
+   * type {@code TimeDuration} to be added to {@code TokenGroup}.
+   */
+  @Override
+  public RecipeSymbol.Builder visitTimeDurationArg(DirectivesParser.TimeDurationArgContext ctx) {
+    String token = ctx.TIME_DURATION().getText();
+    builder.addToken(new TimeDuration(token));
+    return builder;
+  }
+
+  /**
    * This visitor methods extracts the list of strings specified. It creates a token
-   * type <code>StringList</code> to be added to <code>TokenGroup</code>.
+   * type {@code StringList} to be added to {@code TokenGroup}.
    */
   @Override
   public RecipeSymbol.Builder visitStringList(DirectivesParser.StringListContext ctx) {
     List<TerminalNode> strings = ctx.String();
-    List<String> strs = new ArrayList<>();
+    List<String> values = new ArrayList<>();
     for (TerminalNode string : strings) {
       String text = string.getText();
-      strs.add(text.substring(1, text.length() - 1));
+      values.add(text.substring(1, text.length() - 1));
     }
-    builder.addToken(new TextList(strs));
+    builder.addToken(new TextList(values));
     return builder;
   }
 
