@@ -157,6 +157,8 @@ These directives are currently available:
 | **Transient Aggregators & Setters**                                    |                                                                  |
 | [Increment Variable](wrangler-docs/directives/increment-variable.md)            | Increments a transient variable with a record of processing.     |
 | [Set Variable](wrangler-docs/directives/set-variable.md)                        | Sets a transient variable with a record of processing.     |
+| **Aggregation**                                                         |                                                                  |
+| [Aggregate](wrangler-docs/directives/aggregate.md)                              | Aggregates byte sizes and time durations with configurable units |
 | **Functions**                                                          |                                                                  |
 | [Data Quality](wrangler-docs/functions/dq-functions.md)                         | Data quality check functions. Checks for date, time, etc.        |
 | [Date Manipulations](wrangler-docs/functions/date-functions.md)                 | Functions that can manipulate date                               |
@@ -216,3 +218,79 @@ Cask is a trademark of Cask Data, Inc. All rights reserved.
 
 Apache, Apache HBase, and HBase are trademarks of The Apache Software Foundation. Used with
 permission. No endorsement by The Apache Software Foundation is implied by the use of these marks.
+
+## Byte Size and Time Duration Parsers
+
+The Data Prep system includes two specialized parsers for handling byte sizes and time durations:
+
+### Byte Size Parser
+
+The Byte Size parser supports both decimal (base 1000) and binary (base 1024) units:
+
+- Decimal units: B, KB, MB, GB, TB, PB, EB, ZB, YB
+- Binary units: B, KiB, MiB, GiB, TiB, PiB, EiB, ZiB, YiB
+
+Example usage:
+```
+"1MB"    // 1,000,000 bytes
+"1MiB"   // 1,048,576 bytes
+"1.5GB"  // 1,500,000,000 bytes
+"1.5GiB" // 1,610,612,736 bytes
+```
+
+### Time Duration Parser
+
+The Time Duration parser supports various time units:
+
+- Nanoseconds: ns
+- Microseconds: us
+- Milliseconds: ms
+- Seconds: s
+- Minutes: m
+- Hours: h
+- Days: d
+- Weeks: w
+- Months: mo
+- Years: y
+
+Example usage:
+```
+"1s"     // 1 second
+"1.5m"   // 1.5 minutes
+"2h"     // 2 hours
+"1.5d"   // 1.5 days
+```
+
+### Aggregate Directive
+
+These parsers are used in the Aggregate directive to perform aggregation operations on byte sizes and time durations. The directive supports:
+
+1. Required Arguments:
+   - `sizeSource`: Source column for byte sizes
+   - `timeSource`: Source column for time durations
+   - `sizeTarget`: Target column for aggregated size
+   - `timeTarget`: Target column for aggregated time
+
+2. Optional Arguments:
+   - `sizeUnit`: Output unit for size (default: "B")
+   - `timeUnit`: Output unit for time (default: "s")
+   - `timeAggregation`: Type of time aggregation (default: "total")
+
+Example usage:
+```
+# Basic aggregation with default units
+aggregate :data_transfer_size :response_time total_size total_time
+
+# Aggregation with specific units
+aggregate :data_transfer_size :response_time total_size_mb total_time_min sizeUnit:MB timeUnit:m
+
+# Aggregation with average time
+aggregate :data_transfer_size :response_time total_size_mb avg_time_sec sizeUnit:MB timeUnit:s timeAggregation:average
+```
+
+The directive handles:
+- Conversion between different units
+- Mixing of decimal and binary units
+- Proper aggregation of values
+- Error handling for invalid inputs
+- Precision in calculations
