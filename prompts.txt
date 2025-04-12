@@ -1,0 +1,48 @@
+# Prompts for ByteSize and TimeDuration Implementation
+
+## ByteSize Token Implementation
+1. Create a new token class `ByteSize` that implements the `Token` interface to handle byte size values with units
+2. Support both binary (KiB, MiB, etc.) and decimal (KB, MB, etc.) units
+3. Implement value(), type(), and toJson() methods
+4. Add proper documentation and annotations
+
+## TimeDuration Token Implementation
+1. Create a new token class `TimeDuration` that implements the `Token` interface to handle time duration values with units
+2. Support various time units (seconds, minutes, hours, days, etc.)
+3. Implement value(), type(), and toJson() methods
+4. Add proper documentation and annotations
+
+## Aggregate Directive Implementation
+1. Create a new directive class `Aggregate` that implements the `Directive` interface
+2. Support aggregation of byte sizes and time durations
+3. Required arguments:
+   - sizeSource: Source column for byte sizes
+   - timeSource: Source column for time durations
+   - sizeTarget: Target column for aggregated size
+   - timeTarget: Target column for aggregated time
+4. Optional arguments:
+   - sizeUnit: Output unit for size (default: "B")
+   - timeUnit: Output unit for time (default: "s")
+   - timeAggregation: Type of time aggregation (default: "total")
+5. Implement proper error handling and validation
+6. Add comprehensive test cases
+
+## Test Cases Implementation
+1. Test basic aggregation functionality
+2. Test unit conversions
+3. Test edge cases:
+   - Zero values
+   - Large numbers
+   - Mixed units
+   - Precision handling
+   - Missing values
+   - Extreme unit conversions
+   - Mixed binary and decimal units
+4. Test error handling and validation
+
+## Documentation
+1. Add section to README.md about new parsers and directive
+2. Document supported units and formats
+3. Provide usage examples
+4. Explain features and capabilities
+5. Add to directives table 
