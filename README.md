@@ -294,3 +294,8 @@ The directive handles:
 - Proper aggregation of values
 - Error handling for invalid inputs
 - Precision in calculations
+
+
+![image](https://github.com/user-attachments/assets/f38015f3-130a-47af-a594-76300bf6a0f1)
+
+BUILD SUCCESS.
